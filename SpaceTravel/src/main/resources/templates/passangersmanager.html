@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<meta charset="UTF-8">
+<title>List of all tourists</title>
+
+<script type="text/javascript">
+function showListOfPassangers() {
+	var div = document.getElementById('listOfPassangersDiv');	
+			div.style.display="block";	
+	}
+function closeListOfPassangers(){
+	var div = document.getElementById('listOfPassangersDiv');	
+	div.style.display="none";
+}
+
+function showNewPassangerForm(){
+	var newPassangerForm =  document.getElementById('CreateANewTouristForm');
+	newPassangerForm.style.display="block";
+}
+function closeNewPassangerForm(){
+	var newPassangerForm = document.getElementById('CreateANewTouristForm');	
+	newPassangerForm.style.display="none";
+}
+</script>
+
+</head>
+<body>
+
+<div th:insert="/index.html">...</div>
+
+<br>
+<form action="/showInfoAboutTourist"  method="Get"> 
+<select name="tourist_id" id="chooseId">
+ <option value="">Select passanger</option>
+        <option th:each="Tourist : ${touristsList}"
+                th:value="${Tourist.tourist_id}"
+                th:text="${Tourist.name}+' : '+${Tourist.surname}+' : '+${Tourist.dateOfBirth}">
+        </option>
+    </select>
+    <input type="submit" value="Show">Show info about this passanger <br>
+    </form>
+
+<br>
+
+<input type="button" name="answer" value="Show list of all passangers" onclick="showListOfPassangers()" ondblclick="closeListOfPassangers()" />
+<div id="listOfPassangersDiv" style="display:none">
+
+	<h1>List of all tourists</h1>
+
+	<table class="steelBlueCols">
+		<tr>
+			<td>Tourist ID</td>
+			<td>Name</td>
+			<td>Surname</td>
+			<td>Country</td>
+			<td>Date of birth</td>
+			<td>Chosen flights</td>
+
+		</tr>
+
+		<tr th:each="Tourist: ${touristsList}">
+			<td><a th:href="@{'/showInfoAboutTourist' + '?tourist_id=' + ${Tourist.tourist_id}}" th:text="${Tourist.tourist_id}"></a></td>
+			<td th:text="${Tourist.name}"></td>
+			<td th:text="${Tourist.surname}"></td>
+			<td th:text="${Tourist.country}"></td>
+			<td th:text="${Tourist.dateOfBirth}"></td>
+			<td><a th:href="@{'/removeTourist/' +${Tourist.tourist_id}}">Remove that tourist</a></td>
+				
+		</tr>
+
+	</table>
+</div>
+
+<input type="button" name="answer" value="Show new passanger form" onclick="showNewPassangerForm()" ondblclick="closeNewPassangerForm()" />
+<div id="CreateANewTouristForm" style="display:none">
+
+<h1> Create a new tourist</h1>
+
+<form method="POST" action="createNewPassangerForm">
+<input type="text" name="name" required="required">Please, put your name<br>
+<input type="text" name="surname" required="required">Please, put your surname<br>
+<input type="text" name="country" required="required">Please, put your country<br>
+<input type="date" name="dateOfBirth" required="required">Please, put your date of birth <br>
+<input type="radio" name="sex" value="Male" required="required">Male<br>
+<input type="radio" name="sex" value="Female" required="required">Female<br>
+<input type="submit"> Create new tourist 	<br>
+</form>
+</div>
+</body>
+</html>

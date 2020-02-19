@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Tourist page</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div th:insert="/index.html">...</div>
+	<table class="steelBlueCols">
+		<tr>
+			<td>Name</td>
+			<td>Surname</td>
+			<td>Country</td>
+			<td>Date of birth</td>
+			<td>Booked flights</td>
+		</tr>
+		<tr>
+			<td th:text="${tourist.name}"></td>
+			<td th:text="${tourist.surname}"></td>
+			<td th:text="${tourist.country}"></td>
+			<td th:text="${tourist.dateOfBirth}"></td>
+			<th:block th:each="flight : ${tourist.flights}">
+				<td><a th:href="@{'/flights/' + ${flight.flightId}}">More
+						info</a></td>
+			</th:block>
+		</tr>
+	</table>
+	<br>
+
+	<table class="steelBlueCols">
+		<tr>
+			<td>Flight id</td>
+			<td>Departure date</td>
+			<td>Arrival date</td>
+			<td>Flight capacity</td>
+			<td>Flight price</td>
+		</tr>
+
+		<th:block th:each="flight : ${tourist.flights}">
+			<tr>
+				<td th:text="${flight.flightId}"></td>
+				<td th:text="${flight.dateOfDeparture}"></td>
+				<td th:text="${flight.dateOfArrival}"></td>
+				<td th:text="${flight.flightCapacity}"></td>
+				<td th:text="${flight.flightPrice}"></td>
+				<td><a
+					th:href="@{'/removeFromFlightList/' + '?tourist_id=' + ${tourist.tourist_id}+ '&' + 'flightId='  + ${flight.flightId}}">Remove
+						from this flight</a></td>
+
+			</tr>
+	</table>
+
+</body>
+</html>

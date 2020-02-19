@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<title>All flights list</title>
+<script type="text/javascript">
+	function showNewFlightForm() {
+		var newFlightForm = document.getElementById('newFlightForm');
+		newFlightForm.style.display = "block";
+	}
+	function closeNewFlightForm() {
+		var newFlightForm = document.getElementById('newFlightForm');
+		newFlightForm.style.display = "none";
+	}
+	function showListOfAllFlights() {
+		var div = document.getElementById('listOfAllFlightsDiv');
+		div.style.display = "block";
+	}
+	function closeListOfAllFlights() {
+		var div = document.getElementById('listOfAllFlightsDiv');
+		div.style.display = "none";
+	}
+</script>
+
+</head>
+<body>
+	<div th:insert="/index.html">...</div>
+	<H1>ALL FLIGHTS LIST</H1>
+
+	<form action="/showInfoAboutFlight" method="get">
+		<select name="flightId" id="flightId">
+			<option value="">Select flight</option>
+			<option th:each="flight : ${flightsList}"
+				th:value="${flight.flightId}"
+				th:text="${flight.dateOfDeparture}+' : '+${flight.flightPrice}">
+			</option>
+		</select> <input type="submit" value="Select tha">Show info about this flight <br>
+	</form>
+
+
+
+	<input type="button" name="answer" value="Show list of all flights"
+		onclick="showListOfAllFlights()" ondblclick="closeListOfAllFlights()" />
+	<div id="listOfAllFlightsDiv" style="display: none">
+		<table class="steelBlueCols">
+			<th>flight id</th>
+			<th>Departure date</th>
+			<th>Arrival date</th>
+			<th>Flight capacity</th>
+			<th>Flight price</th>
+			<th>How many passangers</th>
+
+			<th:block th:each="flight : ${flightsList}">
+				<tr>
+					<td th:text="${flight.flightId}"></td>
+					<td th:text="${flight.dateOfDeparture}"></td>
+					<td th:text="${flight.dateOfArrival}"></td>
+					<td th:text="${flight.flightCapacity}"></td>
+					<td th:text="${flight.flightPrice}"></td>
+					<td th:text="${flight.listOfTourists.size()}"></td>
+					
+					<td><a
+						th:href="@{'/showInfoAboutFlight' + '?flightId=' + ${flight.flightId}}">More
+							info about that flight</a></td>
+
+				</tr>
+			</th:block>
+		</table>
+	</div>
+
+	<br>
+
+	<input type="button" name="answer" value="Create a new flight"
+		onclick="showNewFlightForm()" ondblclick="closeNewFlightForm()" />
+
+	<div id="newFlightForm" style="display: none">
+		<h1>Create a new flight</h1>
+		<form method="POST" action="flights">
+			<input type="date" name="dateOfDeparture" required="required">Please,choose
+			date of departure<br> <input type="date" name="dateOfArrival"
+				required="required">Please,choose date of arrival<br> <input
+				type="number" name="flightCapacity" min="0" required="required">Please,put
+			flight capacity <br> <input type="number" name="flightPrice"
+				min="0" required="required">Please, put flight price<br>
+			<input type="submit"> Create new flight <br>
+		</form>
+</body>
+</html>

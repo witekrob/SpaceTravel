@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Tourist Manager</title>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module('myapp', []);
+</script>
+</head>
+<body ng-controller="TouristController as tourControl">
+
+	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+
+
+	<h1>{{tourControl.myapp}}</h1>
+	<form>
+		<input type="text" ng-model="tourControl.tourist.name" placeholder="Name"><br> 
+		<input type="text" ng-model="tourControl.tourist.surname" placeholder="Surname"><br>
+		<input type="text" ng-model="tourControl.tourist.country"placeholder="Country"><br> 
+		<input type="text" ng-model="tourControl.tourist.sex" placeholder="sex"><br>
+		<input type="text" ng-model="tourControl.tourist.dateOfBirth" placeholder="date of birth"><br>
+		<button ng-click="tourControl.addTourist(tourControl.tourist)">Add tourist</button>
+	</form>
+
+	<ul>
+		<li ng-repeat="tour in tourControl.tourists">
+		{{tour.name}} - 	{{tour.producer}} ({{tour.country}} )</li>
+	</ul>
+</body>
+</html>
